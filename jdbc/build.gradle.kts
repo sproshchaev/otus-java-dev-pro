@@ -15,6 +15,7 @@ repositories {
 dependencies {
     implementation("org.hsqldb:hsqldb:2.7.3")
     implementation("org.postgresql:postgresql:42.6.0")
+    implementation("com.zaxxer:HikariCP:5.0.1")
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")

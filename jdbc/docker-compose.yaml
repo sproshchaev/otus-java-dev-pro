@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  db_gptmn:
+  mydb:
     image: postgis/postgis:15-3.4-alpine
     container_name: postgresql_mydb
     environment:
@@ -27,7 +27,7 @@ services:
     volumes:
       - pgadmin_data:/data/pgadmin
     depends_on:
-      - db_gptmn
+      - mydb
 
 networks:
   pg-network:
