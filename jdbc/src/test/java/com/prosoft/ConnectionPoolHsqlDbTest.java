@@ -25,7 +25,7 @@ class ConnectionPoolHsqlDbTest {
         // Получение соединения и проверка
         try (Connection connection = dataSource.getConnection()) {
             // Проверка, что соединение не закрыто
-            assertFalse(connection.isClosed());
+            assertFalse(connection.isClosed(), "Соединение должно быть открыто!");
         }
     }
 
