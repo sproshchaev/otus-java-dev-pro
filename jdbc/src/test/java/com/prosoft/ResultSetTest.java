@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * ResultSet
+ */
 class ResultSetTest {
 
     private static Connection connection;
@@ -24,6 +27,10 @@ class ResultSetTest {
         DatabaseInitializer.initializeDatabase(); // Инициализация базы данных
     }
 
+    /**
+     * Тестируем метод next() ResultSet.
+     * Проверяем, что можно перейти к первой записи и получить ожидаемое имя пользователя.
+     */
     @Test
     void testNext() throws Exception {
         String query = "SELECT * FROM users";
@@ -37,12 +44,28 @@ class ResultSetTest {
         }
     }
 
+    /**
+     * Тестируем получение булевого значения getBoolean() из ResultSet.
+     * Проверяем значение колонки active для пользователя с заданным email.
+     */
     @Test
     void testGetBoolean() throws Exception {
-        // Пример, если бы у нас была булевая колонка
-        // assertFalse(rs.getBoolean("someBooleanColumn"));
+        String query = "SELECT * FROM users WHERE email = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, "alice@example.com");
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                assertTrue(rs.next()); // Проверяем, что запись найдена
+                // Проверяем значение колонки active
+                assertTrue(rs.getBoolean("active")); // Проверяем, что значение active = True
+            }
+        }
     }
 
+    /**
+     * Тестируем получение значения типа Long через getLong() из ResultSet.
+     * Проверяем, что id пользователя не null и имеет тип Long.
+     */
     @Test
     void testGetLong() throws Exception {
         String query = "SELECT * FROM users";
@@ -61,9 +84,12 @@ class ResultSetTest {
         }
     }
 
+    /**
+     * Тестируем метод absolute() ResultSet.
+     * Проверяем возможность перехода к первой и второй записи и соответствие ожидаемым именам.
+     */
     @Test
     void testAbsolute() throws Exception {
-        // SQL запрос для выбора всех пользователей
         String query = "SELECT * FROM users";
 
         // Создаем scrollable ResultSet, устанавливая соответствующие параметры
@@ -80,9 +106,12 @@ class ResultSetTest {
         }
     }
 
+    /**
+     * Тестируем обновление строки методом updateString() в ResultSet.
+     * Проверяем, что обновление имени пользователя прошло успешно.
+     */
     @Test
     void testUpdateString() throws Exception {
-        // SQL запрос для выбора пользователя по email
         String query = "SELECT * FROM users WHERE email = ?";
 
         // Создаем PreparedStatement с заданным типом ResultSet и режимом параллелизма
@@ -101,6 +130,10 @@ class ResultSetTest {
         }
     }
 
+    /**
+     * Тестируем метод moveToInsertRow() ResultSet.
+     * Проверяем возможность вставки новой записи и её наличие в базе данных.
+     */
     @Test
     void testMoveToInsertRow() throws Exception {
         String query = "SELECT * FROM users";
@@ -125,6 +158,10 @@ class ResultSetTest {
         }
     }
 
+    /**
+     * Тестируем метод moveToCurrentRow() ResultSet.
+     * Проверяем, что после возвращения к текущей записи имя остается неизменным.
+     */
     @Test
     void testMoveToCurrentRow() throws Exception {
         String query = "SELECT * FROM users";
@@ -139,6 +176,10 @@ class ResultSetTest {
         }
     }
 
+    /**
+     * Тестируем метод insertRow() ResultSet.
+     * Проверяем, что новая запись добавлена в базу данных и имеет ожидаемое имя.
+     */
     @Test
     void testInsertRow() throws Exception {
         String query = "SELECT * FROM users";
