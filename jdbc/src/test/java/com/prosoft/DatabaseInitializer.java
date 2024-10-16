@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+/**
+ * Инициализация базы данных из schema.sql, data.sql
+ */
 class DatabaseInitializer {
 
     public static void initializeDatabase() {

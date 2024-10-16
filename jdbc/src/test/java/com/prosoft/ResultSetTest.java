@@ -3,15 +3,12 @@ package com.prosoft;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * ResultSet
+ * ResultSet, Statement, PreparedStatement
  */
 class ResultSetTest {
 
@@ -28,8 +25,29 @@ class ResultSetTest {
     }
 
     /**
+     * Тестируем получение булевого значения getBoolean() из ResultSet.
+     * Проверяем значение колонки active для пользователя с заданным email.
+     * Используется Statement
+     */
+    @Test
+    void testGetBooleanStatement() throws Exception {
+        String email = "alice@example.com";
+        String query = "SELECT * FROM users WHERE email = '" + email + "'"; // Использование Statement
+
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            assertTrue(rs.next()); // Проверяем, что запись найдена
+            // Проверяем значение колонки active
+            assertTrue(rs.getBoolean("active")); // Проверяем, что значение active = True
+        } catch (SQLException e) {
+            e.printStackTrace(); // Обработка исключения SQL
+        }
+    }
+
+    /**
      * Тестируем метод next() ResultSet.
      * Проверяем, что можно перейти к первой записи и получить ожидаемое имя пользователя.
+     * Используется PreparedStatement
      */
     @Test
     void testNext() throws Exception {
@@ -47,6 +65,7 @@ class ResultSetTest {
     /**
      * Тестируем получение булевого значения getBoolean() из ResultSet.
      * Проверяем значение колонки active для пользователя с заданным email.
+     * Используется PreparedStatement
      */
     @Test
     void testGetBoolean() throws Exception {
@@ -65,6 +84,7 @@ class ResultSetTest {
     /**
      * Тестируем получение значения типа Long через getLong() из ResultSet.
      * Проверяем, что id пользователя не null и имеет тип Long.
+     * Используется PreparedStatement
      */
     @Test
     void testGetLong() throws Exception {
@@ -87,6 +107,7 @@ class ResultSetTest {
     /**
      * Тестируем метод absolute() ResultSet.
      * Проверяем возможность перехода к первой и второй записи и соответствие ожидаемым именам.
+     * Используется PreparedStatement
      */
     @Test
     void testAbsolute() throws Exception {
@@ -109,6 +130,7 @@ class ResultSetTest {
     /**
      * Тестируем обновление строки методом updateString() в ResultSet.
      * Проверяем, что обновление имени пользователя прошло успешно.
+     * Используется PreparedStatement
      */
     @Test
     void testUpdateString() throws Exception {
@@ -133,6 +155,7 @@ class ResultSetTest {
     /**
      * Тестируем метод moveToInsertRow() ResultSet.
      * Проверяем возможность вставки новой записи и её наличие в базе данных.
+     * Используется PreparedStatement
      */
     @Test
     void testMoveToInsertRow() throws Exception {
@@ -161,6 +184,7 @@ class ResultSetTest {
     /**
      * Тестируем метод moveToCurrentRow() ResultSet.
      * Проверяем, что после возвращения к текущей записи имя остается неизменным.
+     * Используется PreparedStatement
      */
     @Test
     void testMoveToCurrentRow() throws Exception {
@@ -179,6 +203,7 @@ class ResultSetTest {
     /**
      * Тестируем метод insertRow() ResultSet.
      * Проверяем, что новая запись добавлена в базу данных и имеет ожидаемое имя.
+     * Используется PreparedStatement
      */
     @Test
     void testInsertRow() throws Exception {
