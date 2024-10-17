@@ -37,7 +37,6 @@ class ResultSetTest {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             assertTrue(rs.next()); // Проверяем, что запись найдена
-            // Проверяем значение колонки active
             assertTrue(rs.getBoolean("active")); // Проверяем, что значение active = True
         } catch (SQLException e) {
             e.printStackTrace(); // Обработка исключения SQL
@@ -75,8 +74,7 @@ class ResultSetTest {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 assertTrue(rs.next()); // Проверяем, что запись найдена
-                // Проверяем значение колонки active
-                assertTrue(rs.getBoolean("active")); // Проверяем, что значение active = True
+                assertTrue(rs.getBoolean("active")); // Проверяем, что значение колонки active = True
             }
         }
     }
@@ -108,6 +106,8 @@ class ResultSetTest {
      * Тестируем метод absolute() ResultSet.
      * Проверяем возможность перехода к первой и второй записи и соответствие ожидаемым именам.
      * Используется PreparedStatement
+     * TYPE_SCROLL_INSENSITIVE: результат запроса можно прокручивать в любом направлении, но изменения в базе данных не будут отражаться в результатах.
+     * CONCUR_READ_ONLY: результат запроса можно только читать, изменения в данных не допускаются.
      */
     @Test
     void testAbsolute() throws Exception {
@@ -130,14 +130,18 @@ class ResultSetTest {
     /**
      * Тестируем обновление строки методом updateString() в ResultSet.
      * Проверяем, что обновление имени пользователя прошло успешно.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
+     * TYPE_SCROLL_INSENSITIVE позволяет перемещаться по результатам в любом направлении, не учитывая изменения в базе данных.
+     * CONCUR_UPDATABLE позволяет изменять, добавлять и удалять данные в ResultSet, а затем обновлять эти изменения в базе данных.
      */
     @Test
     void testUpdateString() throws Exception {
         String query = "SELECT * FROM users WHERE email = ?";
 
         // Создаем PreparedStatement с заданным типом ResultSet и режимом параллелизма
-        try (PreparedStatement pstmt = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(query,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE)) {
             pstmt.setString(1, "alice@example.com"); // Устанавливаем параметр email
 
             // Выполняем запрос и получаем ResultSet
@@ -155,7 +159,9 @@ class ResultSetTest {
     /**
      * Тестируем метод moveToInsertRow() ResultSet.
      * Проверяем возможность вставки новой записи и её наличие в базе данных.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
+     * TYPE_SCROLL_INSENSITIVE позволяет перемещаться по результатам в любом направлении, не учитывая изменения в базе данных.
+     * CONCUR_UPDATABLE позволяет изменять, добавлять и удалять данные в ResultSet, а затем обновлять эти изменения в базе данных.
      */
     @Test
     void testMoveToInsertRow() throws Exception {
@@ -184,7 +190,9 @@ class ResultSetTest {
     /**
      * Тестируем метод moveToCurrentRow() ResultSet.
      * Проверяем, что после возвращения к текущей записи имя остается неизменным.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
+     * TYPE_SCROLL_INSENSITIVE позволяет перемещаться по результатам в любом направлении, не учитывая изменения в базе данных.
+     * CONCUR_UPDATABLE позволяет изменять, добавлять и удалять данные в ResultSet, а затем обновлять эти изменения в базе данных.
      */
     @Test
     void testMoveToCurrentRow() throws Exception {
@@ -204,6 +212,7 @@ class ResultSetTest {
      * Тестируем метод insertRow() ResultSet.
      * Проверяем, что новая запись добавлена в базу данных и имеет ожидаемое имя.
      * Используется PreparedStatement
+     * !!!
      */
     @Test
     void testInsertRow() throws Exception {
