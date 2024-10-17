@@ -237,4 +237,18 @@ class ResultSetTest {
             }
         }
     }
+
+    /**
+     * Тестируем наличие таблицы users в базе данных.
+     * Используется DatabaseMetaData.
+     */
+    @Test
+    void testTableExists() throws Exception {
+        DatabaseMetaData metaData = connection.getMetaData();
+        String tableName = "users";
+
+        try (ResultSet tables = metaData.getTables(null, null, tableName, null)) {
+            assertTrue(tables.next(), "Таблица " + tableName + " не найдена."); // Проверяем, что таблица существует
+        }
+    }
 }
