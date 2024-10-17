@@ -77,28 +77,4 @@ public class SimpleConnectionPool {
         return availableConnections.size();
     }
 
-    public static void main(String[] args) {
-        try {
-            // Пример использования пула соединений
-            SimpleConnectionPool pool = new SimpleConnectionPool(
-                    "jdbc:postgresql://localhost:5432/mydb", "username", "password", 5);
-
-            // Получение соединения из пула
-            Connection connection = pool.getConnection();
-            System.out.println("Connection obtained from the pool.");
-
-            // Выполнение операций с базой данных...
-
-            // Возвращение соединения обратно в пул
-            pool.releaseConnection(connection);
-            System.out.println("Connection returned to the pool.");
-
-            // Закрытие пула соединений
-            pool.shutdown();
-            System.out.println("Connection pool shutdown.");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
