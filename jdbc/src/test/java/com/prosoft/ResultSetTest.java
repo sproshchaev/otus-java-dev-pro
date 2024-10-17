@@ -25,23 +25,34 @@ class ResultSetTest {
     }
 
     /**
-     * Тестируем наличие таблицы users в базе данных.
+     * Тестируем наличие таблицы users в базе данных и число столбцов в таблице.
      * Используется DatabaseMetaData.
      */
     @Test
     void testTableExists() throws Exception {
         DatabaseMetaData metaData = connection.getMetaData();
         String tableName = "users";
+        int expColumnCount = 4;
 
+        // Проверяем, что таблица существует
         try (ResultSet tables = metaData.getTables(null, null, tableName, null)) {
-            assertTrue(tables.next(), "Таблица " + tableName + " не найдена."); // Проверяем, что таблица существует
+            assertTrue(tables.next(), "Таблица " + tableName + " не найдена.");
+        }
+
+        // Проверяем количество столбцов
+        try (ResultSet columns = metaData.getColumns(null, null, tableName, null)) {
+            int columnCount = 0;
+            while (columns.next()) {
+                columnCount++; // Увеличиваем счетчик для каждого найденного столбца
+            }
+            assertEquals(expColumnCount, columnCount, "Количество столбцов в таблице " + tableName + " не равно " + expColumnCount + ".");
         }
     }
 
     /**
      * Тестируем получение булевого значения getBoolean() из ResultSet.
      * Проверяем значение колонки active для пользователя с заданным email.
-     * Используется Statement
+     * Используется Statement.
      */
     @Test
     void testGetBooleanStatement() throws Exception {
@@ -60,7 +71,7 @@ class ResultSetTest {
     /**
      * Тестируем метод next() ResultSet.
      * Проверяем, что можно перейти к первой записи и получить ожидаемое имя пользователя.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
      */
     @Test
     void testNext() throws Exception {
@@ -78,7 +89,7 @@ class ResultSetTest {
     /**
      * Тестируем получение булевого значения getBoolean() из ResultSet.
      * Проверяем значение колонки active для пользователя с заданным email.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
      */
     @Test
     void testGetBoolean() throws Exception {
@@ -96,7 +107,7 @@ class ResultSetTest {
     /**
      * Тестируем получение значения типа Long через getLong() из ResultSet.
      * Проверяем, что id пользователя не null и имеет тип Long.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
      */
     @Test
     void testGetLong() throws Exception {
@@ -119,7 +130,7 @@ class ResultSetTest {
     /**
      * Тестируем метод absolute() ResultSet.
      * Проверяем возможность перехода к первой и второй записи и соответствие ожидаемым именам.
-     * Используется PreparedStatement
+     * Используется PreparedStatement.
      * TYPE_SCROLL_INSENSITIVE: результат запроса можно прокручивать в любом направлении, но изменения в базе данных не будут отражаться в результатах.
      * CONCUR_READ_ONLY: результат запроса можно только читать, изменения в данных не допускаются.
      */
@@ -225,8 +236,7 @@ class ResultSetTest {
     /**
      * Тестируем метод insertRow() ResultSet.
      * Проверяем, что новая запись добавлена в базу данных и имеет ожидаемое имя.
-     * Используется PreparedStatement
-     * !!!
+     * Используется PreparedStatement.
      */
     @Test
     void testInsertRow() throws Exception {
