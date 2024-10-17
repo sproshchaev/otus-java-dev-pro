@@ -13,7 +13,7 @@ services:
     networks:
       - pg-network
     volumes:
-      - postgres_mydb:/data/mydb
+      - postgres_mydb:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:8.10
