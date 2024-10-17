@@ -197,6 +197,7 @@ class ResultSetTest {
              ResultSet rs = pstmt.executeQuery()) {
 
             rs.moveToInsertRow();
+            rs.updateInt("id", 4);
             rs.updateString("name", "Charlie");
             rs.updateString("email", "charlie@example.com");
             rs.insertRow(); // Вставляем запись
@@ -247,6 +248,7 @@ class ResultSetTest {
              ResultSet rs = pstmt.executeQuery()) {
 
             rs.moveToInsertRow();
+            rs.updateInt("id", 3);
             rs.updateString("name", "David");
             rs.updateString("email", "david@example.com");
             rs.insertRow(); // Вставляем запись
