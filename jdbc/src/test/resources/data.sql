@@ -1,3 +1,3 @@
 DELETE FROM users;
-INSERT INTO users (name, email, active) VALUES ('Alice', 'alice@example.com', true);
-INSERT INTO users (name, email, active) VALUES ('Bob', 'bob@example.com', true);
+INSERT INTO users (id, name, email, active) VALUES (1, 'Alice', 'alice@example.com', true);
+INSERT INTO users (id, name, email, active) VALUES (2, 'Bob', 'bob@example.com', true);
