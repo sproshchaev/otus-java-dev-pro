@@ -34,6 +34,8 @@ class TransactionTest {
         PreparedStatement updateStmt = null;
 
         try {
+            // Устанавливаем уровень изоляции транзакции
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             // Отключаем автокоммит для начала транзакции
             connection.setAutoCommit(false);
 
@@ -89,6 +91,8 @@ class TransactionTest {
         PreparedStatement insertStmt = null;
 
         try {
+            // Устанавливаем уровень изоляции транзакции
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             // Отключаем автокоммит для начала транзакции
             connection.setAutoCommit(false);
 
