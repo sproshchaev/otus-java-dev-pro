@@ -8,7 +8,8 @@ import java.sql.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * ResultSet, Statement, PreparedStatement
+ * ResultSet, Statement, PreparedStatement.
+ * Используется PostgreSQL.
  */
 class ResultSetTest {
 

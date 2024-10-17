@@ -9,6 +9,10 @@ import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/**
+ * Пул соединений Hikari.
+ * Используется PostgreSQL.
+ */
 class HikariPoolPgTest {
 
     /**

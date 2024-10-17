@@ -10,7 +10,8 @@ import java.sql.Connection;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
- * HSQLDB
+ * Пул соединений - устаревший пример.
+ * Используется HSQLDB.
  */
 class ConnectionPoolHsqlDbTest {
 
