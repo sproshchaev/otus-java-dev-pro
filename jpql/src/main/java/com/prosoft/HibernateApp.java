@@ -1,15 +1,11 @@
 package com.prosoft;
 
-import com.prosoft.domain.Person;
 import com.prosoft.util.LiquibaseRunner;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * Пример использования Hibernate через общий API (JPA):
@@ -17,7 +13,7 @@ import java.util.List;
  */
 public class HibernateApp {
 
-    private static final Logger logger = LoggerFactory.getLogger(HibernateApp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HibernateApp.class);
 
     public static void main(String[] args) {
 
@@ -32,17 +28,6 @@ public class HibernateApp {
 
             /** Открытие транзакции */
             entityManager.getTransaction().begin();
-
-            /** Выполнение запроса для получения всех сущностей Person */
-            TypedQuery<Person> query = entityManager.createQuery("FROM Person", Person.class);
-            List<Person> persons = query.getResultList();
-
-            persons.forEach(person -> {
-                logger.info("Person: " + person.getName());
-                person.getPhones().forEach(phone ->
-                        logger.info("  Phone: " + phone.getNumber())
-                );
-            });
 
             /** Завершение транзакции */
             entityManager.getTransaction().commit();

@@ -1,5 +1,0 @@
-CREATE TABLE phone (
-    id SERIAL PRIMARY KEY,
-    person_id INT NOT NULL REFERENCES person(id) ON DELETE CASCADE,
-    number VARCHAR(20) NOT NULL
-);

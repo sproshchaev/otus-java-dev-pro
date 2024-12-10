@@ -6,24 +6,32 @@
              version="3.0">
 
     <persistence-unit name="hibernate-unit" transaction-type="RESOURCE_LOCAL">
-        <!-- Сущности -->
-        <class>com.prosoft.domain.Person</class>
-        <class>com.prosoft.domain.Phone</class>
+        <!-- (1) Сущности -->
+        <class>com.prosoft.entity.Category</class>
+        <class>com.prosoft.entity.Contact</class>
+        <class>com.prosoft.entity.Course</class>
+        <class>com.prosoft.entity.Student</class>
 
-        <!-- Настройки подключения -->
+        <!-- (2) Настройки подключения -->
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/otus-db"/>
             <property name="jakarta.persistence.jdbc.user" value="user"/>
             <property name="jakarta.persistence.jdbc.password" value="password"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
-            <!-- Настройки Hibernate -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <!-- (3) Настройки Hibernate -->
+            <!-- с версии Hibernate 5.x не указывается: <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/> -->
             <property name="hibernate.hbm2ddl.auto" value="none"/>
 
-            <!-- Логирование SQL запросов -->
+            <!-- (4) Логирование SQL запросов -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+
+            <!-- (5) Параметры для использования пула соединений c3p0 в Hibernate -->
+            <property name="hibernate.c3p0.min_size" value="5"/>
+            <property name="hibernate.c3p0.max_size" value="200"/>
+            <property name="hibernate.c3p0.max_statements" value="200"/>
+
         </properties>
     </persistence-unit>
 </persistence>

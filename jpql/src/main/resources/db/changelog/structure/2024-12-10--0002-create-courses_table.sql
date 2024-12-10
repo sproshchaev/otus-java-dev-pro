@@ -1,0 +1,6 @@
+CREATE TABLE courses (
+  id UUID PRIMARY KEY NOT NULL,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  cost INTEGER NOT NULL,
+  category_id UUID NOT NULL REFERENCES categories (id)
+);
