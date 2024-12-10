@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC URL с указанием порта 5432 -->
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/otus-db</property>
+
+        <!-- Имя пользователя и пароль из docker-compose -->
+        <property name="hibernate.connection.username">user</property>
+        <property name="hibernate.connection.password">password</property>
+
+        <!-- Класс драйвера для PostgreSQL -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+
+        <!-- Диалект Hibernate для PostgreSQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Hibernate не будет автоматически изменять схему -->
+        <property name="hibernate.hbm2ddl.auto">none</property>
+    </session-factory>
+</hibernate-configuration>

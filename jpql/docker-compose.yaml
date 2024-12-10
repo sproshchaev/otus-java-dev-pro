@@ -1,12 +1,11 @@
 version: '3.9'
 
 services:
-  db_pgi:
+  postgres:
     image: postgis/postgis:15-3.4-alpine
-    container_name: jpql-demo
     environment:
       POSTGRES_DB: otus-db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
-      - "5433:5432"
+      - "5432:5432"
