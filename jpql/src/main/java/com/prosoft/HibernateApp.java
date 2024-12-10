@@ -6,43 +6,51 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * Пример использования Hibernate через общий API (JPA):
+ * - persistence.xml
+ */
 public class HibernateApp {
+
+    private static final Logger logger = LoggerFactory.getLogger(HibernateApp.class);
 
     public static void main(String[] args) {
 
-        // Запуск миграций с помощью Liquibase
+        /** Запуск миграций Liquibase */
         LiquibaseRunner.runMigrations();
 
-        // Создание EntityManagerFactory для JPA
+        /** Создание EntityManagerFactory для JPA - создаётся на уровне всего приложения и может использоваться многократно для создания различных EntityManager */
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("hibernate-unit");
 
-        // Создание EntityManager для работы с базой данных
+        /** Создание EntityManager для работы с базой данных из EntityManagerFactory */
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
 
-            // Открытие транзакции
+            /** Открытие транзакции */
             entityManager.getTransaction().begin();
 
-            // Выполнение запроса для получения всех сущностей Person
+            /** Выполнение запроса для получения всех сущностей Person */
             TypedQuery<Person> query = entityManager.createQuery("FROM Person", Person.class);
             List<Person> persons = query.getResultList();
 
-            // Выводим полученные данные
             persons.forEach(person -> {
-                System.out.println("Person: " + person.getName());
+                logger.info("Person: " + person.getName());
                 person.getPhones().forEach(phone ->
-                        System.out.println("  Phone: " + phone.getNumber())
+                        logger.info("  Phone: " + phone.getNumber())
                 );
             });
 
-            // Завершаем транзакцию
+            /** Завершение транзакции */
             entityManager.getTransaction().commit();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // Закрытие EntityManagerFactory
+            /** Закрытие EntityManagerFactory */
             entityManagerFactory.close();
         }
     }

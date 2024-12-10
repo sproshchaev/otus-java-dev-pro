@@ -11,9 +11,11 @@ repositories {
 
 dependencies {
 
-    implementation 'org.postgresql:postgresql:42.6.0'
+    implementation 'org.postgresql:postgresql:42.7.4'
     implementation 'org.hibernate.orm:hibernate-core:6.3.1.Final'
     implementation 'org.liquibase:liquibase-core:4.23.0'
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.5.12'
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
