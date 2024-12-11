@@ -5,7 +5,7 @@
                                  https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-    <persistence-unit name="hibernate-unit" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="SingleUnit" transaction-type="RESOURCE_LOCAL">
         <!-- (1) Сущности -->
         <class>com.prosoft.entity.Category</class>
         <class>com.prosoft.entity.Contact</class>
