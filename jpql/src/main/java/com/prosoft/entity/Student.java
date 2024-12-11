@@ -2,7 +2,8 @@ package com.prosoft.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.List;
+
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,8 +19,12 @@ public class Student {
     private String name;
 
     @OneToMany(mappedBy = "student")
-    private List<Contact> contacts;
+    private Set<Contact> contactSet;
 
-    @ManyToMany(mappedBy = "students")
-    private List<Course> courses;
+    @ManyToMany
+    @JoinTable(name = "students_courses",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courseSet;
+
 }

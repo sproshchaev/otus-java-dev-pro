@@ -6,7 +6,8 @@ import lombok.Data;
 import java.util.UUID;
 
 @Entity
-@Table(name = "contacts")
+@Table(name = "CONTACTS",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"type", "student_id"})})
 @Data
 public class Contact {
 
@@ -14,10 +15,10 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, length = 70)
+    @Column(name = "value", nullable = false, length = 70)
     private String value;
 
-    @Column(nullable = false, length = 15)
+    @Column(name = "type", nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private ContactType type;
 
@@ -25,7 +26,4 @@ public class Contact {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    public enum ContactType {
-        PHONE, EMAIL, TELEGRAM
-    }
 }

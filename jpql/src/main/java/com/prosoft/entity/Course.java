@@ -3,7 +3,7 @@ package com.prosoft.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -15,21 +15,17 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "cost", nullable = false)
     private int cost;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @ManyToMany
-    @JoinTable(
-            name = "students_courses",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private List<Student> students;
+    @ManyToMany(mappedBy = "courseSet")
+    private Set<Student> studentSet;
 }
 
