@@ -21,13 +21,13 @@ public class ProblemsDemo {
 
     public static void main(String[] args) {
 
-        lazyInitializationExceptionDemo();
+        // lazyInitializationExceptionDemo();
 
         // nPlusOneProblemDemo();
 
         // fetchSolutionDemo();
 
-        // entityGraphSolutionDemo();
+        entityGraphSolutionDemo();
     }
 
     /**
@@ -53,6 +53,11 @@ public class ProblemsDemo {
         }
     }
 
+
+    /**
+     * Метод nPlusOneProblemDemo().
+     * Демонстрирует проблему N+1 при выполнении ленивой загрузки связанных данных в JPA.
+     */
     public static void nPlusOneProblemDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
@@ -71,6 +76,10 @@ public class ProblemsDemo {
         entityManager.close();
     }
 
+    /**
+     * Метод fetchSolutionDemo().
+     * Демонстрирует решение проблемы ленивой загрузки данных с использованием оператора {@code FETCH} в JPQL.
+     */
     public static void fetchSolutionDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
@@ -88,6 +97,10 @@ public class ProblemsDemo {
         }
     }
 
+    /**
+     * Метод entityGraphSolutionDemo().
+     * Демонстрирует использование EntityGraph для решения проблемы ленивой загрузки и предотвращения LazyInitializationException.
+     */
     public static void entityGraphSolutionDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
