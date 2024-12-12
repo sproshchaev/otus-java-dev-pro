@@ -34,6 +34,11 @@ public class DatabaseInitializer {
             /** Открытие транзакции */
             entityManager.getTransaction().begin();
 
+            /** Выполнение SQL-запроса для удаления данных */
+            entityManager.createNativeQuery("DELETE FROM categories WHERE name NOT IN ('Development', 'Architecture', 'DevOps', 'Analysis', 'Design')")
+                    .executeUpdate();
+            LOGGER.info("Rows deleted from categories table.");
+
             logTableContents(entityManager, "Category");
             logTableContents(entityManager, "Contact");
             logTableContents(entityManager, "Course");
