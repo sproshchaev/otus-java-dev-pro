@@ -16,6 +16,7 @@ import java.util.List;
 public class DatabaseInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseInitializer.class);
+    private static final String ENTITY_PACKAGE = "com.prosoft.entity.";
 
     private DatabaseInitializer() {
     }
@@ -49,7 +50,7 @@ public class DatabaseInitializer {
             entityManager.getTransaction().commit();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while loading the entity class.", e);
         } finally {
             /** Закрытие EntityManagerFactory */
             entityManagerFactory.close();
@@ -58,7 +59,7 @@ public class DatabaseInitializer {
 
     private static void logTableContents(EntityManager entityManager, String entityClassName) {
         try {
-            Class<?> entityClass = Class.forName("com.prosoft.entity." + entityClassName);
+            Class<?> entityClass = Class.forName(ENTITY_PACKAGE + entityClassName);
 
             List<?> resultList = entityManager.createQuery("SELECT e FROM " + entityClassName + " e", entityClass).getResultList();
 
