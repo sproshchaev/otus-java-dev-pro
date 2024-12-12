@@ -20,12 +20,21 @@ public class ProblemsDemo {
     public static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
 
     public static void main(String[] args) {
-        // lazyInitializationExceptionDemo();
+
+        lazyInitializationExceptionDemo();
+
         // nPlusOneProblemDemo();
+
         // fetchSolutionDemo();
+
         // entityGraphSolutionDemo();
     }
 
+    /**
+     * Метод lazyInitializationExceptionDemo().
+     * Демонстрирует возникновение LazyInitializationException при попытке доступа
+     * к лениво загружаемым данным после закрытия EntityManager.
+     */
     public static void lazyInitializationExceptionDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
