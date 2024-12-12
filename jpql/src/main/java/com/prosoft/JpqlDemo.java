@@ -21,9 +21,9 @@ public class JpqlDemo {
 
     public static void main(String[] args) {
         simpleQueryDemo();
-        // normalQueryDemo();
-        // ? advancedQueryDemo();
-        // executeUpdateDemo();
+        normalQueryDemo();
+        advancedQueryDemo();
+        executeUpdateDemo();
     }
 
     /**
@@ -65,6 +65,9 @@ public class JpqlDemo {
         entityManager.close();
     }
 
+    /**
+     * normalQueryDemo()
+     */
     public static void normalQueryDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
@@ -73,12 +76,15 @@ public class JpqlDemo {
         Long categoryCount = entityManager
                 .createQuery("SELECT COUNT(C) FROM Category C", Long.class)
                 .getSingleResult();
+        LOGGER.info("Total number of categories: {}", categoryCount);
 
-        // Найти курсы с одним названием категории - не используем JOIN
+        // Найти курсы с одним названием категории - не используем JOIN (JOIN сделает за нас Hibernate)
         List<Course> devOpsCourseList = entityManager
                 .createQuery("SELECT C FROM Course C WHERE C.category.name = :name", Course.class)
                 .setParameter("name", "DevOps")
                 .getResultList();
+        LOGGER.info("Courses for 'DevOps' category:");
+        devOpsCourseList.forEach(course -> LOGGER.info("{}", course));
 
         // Найти среднюю стоимость дорогих курсов по всему кроме дизайна
         Double averageCost = entityManager
@@ -87,25 +93,32 @@ public class JpqlDemo {
                 .setParameter("level", 100)
                 .setParameter("name", "Design")
                 .getSingleResult();
+        LOGGER.info("Average cost of expensive courses (excluding 'Design'): {}", averageCost);
 
         entityManager.close();
     }
 
+    /**
+     * advancedQueryDemo()
+     */
     public static void advancedQueryDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
 
         // Найти среднюю стоимость курсов в каждой группе, где она больше уровня
         List<CategoryInfo> categoryInfoList = entityManager
-                .createQuery("SELECT new ru.otus.javaprojpql.agreates.CategoryInfo(C.category.name, avg(C.cost)) " +
+                .createQuery("SELECT new com.prosoft.agreates.CategoryInfo(C.category.name, avg(C.cost)) " +
                         " FROM Course C GROUP BY C.category.name HAVING avg (C.cost) >= :level", CategoryInfo.class)
                 .setParameter("level", 200)
                 .getResultList();
-
+        categoryInfoList.forEach(categoryInfo -> LOGGER.info("CategoryInfo: {}", categoryInfo));
 
         entityManager.close();
     }
 
+    /**
+     * executeUpdateDemo()
+     */
     public static void executeUpdateDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
@@ -114,20 +127,13 @@ public class JpqlDemo {
         transaction.begin();
 
         // Обновить стоимость всех курсов группы с определенным названием на определенный процент
-        // Не будет работать, так как неявный join не поддерживается в этом случае
-        // int updatedRowCount1 = entityManager
-        //      .createQuery("UPDATE Course C SET C.cost = C.cost * :rate WHERE C.category.name = :name")
-        //      .setParameter("rate", 2)
-        //      .setParameter("name", "Analysis")
-        //      .executeUpdate();
-
-        // Обновить стоимость всех курсов группы с определенным названием на определенный процент
-        int updatedRowCount2 = entityManager
+        int updatedRowCount = entityManager
                 .createQuery("UPDATE Course C SET C.cost = C.cost * :rate " +
                         " WHERE C.category.id IN (SELECT Ct.id FROM Category Ct WHERE Ct.name = :name)")
                 .setParameter("rate", 2)
                 .setParameter("name", "Analysis")
                 .executeUpdate();
+        LOGGER.info("Number of updated rows: {}", updatedRowCount);
 
         transaction.commit();
 
