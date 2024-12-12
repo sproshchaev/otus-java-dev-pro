@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * Запуск системы миграций и вывод состояния основных таблиц в консоль.
+ * DatabaseInitializer.
+ * Запуск системы миграций, подготовка перед повторным запуском demo-методов, вывод состояния основных таблиц в консоль.
  */
 public class DatabaseInitializer {
 

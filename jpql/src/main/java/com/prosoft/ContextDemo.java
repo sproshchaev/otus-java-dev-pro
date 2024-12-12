@@ -7,14 +7,13 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+/**
+ * ContextDemo
+ */
 public class ContextDemo {
 
     public static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
 
-    /**
-     * Перед повторным запуском необходимо выполнить запрос:
-     * DELETE FROM categories WHERE name NOT IN ('Development', 'Architecture', 'DevOps', 'Analysis', 'Design');
-     */
     public static void main(String[] args) {
 
         /** Запуск миграций Liquibase */

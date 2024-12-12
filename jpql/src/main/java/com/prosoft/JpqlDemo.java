@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * JpqlDemo
+ */
 public class JpqlDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JpqlDemo.class);
