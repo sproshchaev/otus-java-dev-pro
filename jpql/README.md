@@ -1,22 +1,47 @@
-# jpql
+# Java Persistence Query Language (JPQL)
 
+1. Структура проекта:
 ```txt
-src/
- ├─ main/
- │   ├─ java/
- │   │   ├─ com/
- │   │       ├─ prosoft/
- │   │           ├─ HibernateApp.java
- │   │           ├─ LiquibaseRunner.java
- │   ├─ resources/     # Конфигурационные файлы
- │       ├─ db.changelog-master.yaml
+jpql
+├── build/
+│   └── (файлы сборки проекта)
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com.prosoft/
+│   │   │       ├── aggregates/
+│   │   │       │   └── CategoryInfo.java        // Модель для представления категорий
+│   │   │       ├── entity/
+│   │   │       │   ├── Category.java           // Сущность для категорий
+│   │   │       │   ├── Contact.java            // Сущность для контактов
+│   │   │       │   ├── ContactType.java        // Перечисление типов контактов
+│   │   │       │   ├── Course.java             // Сущность для курсов
+│   │   │       │   └── Student.java            // Сущность для студентов
+│   │   │       └── util/
+│   │   │           ├── LiquibaseRunner.java    // Запуск миграций Liquibase
+│   │   │           ├── ContextDemo.java        // Демонстрация работы контекста
+│   │   │           ├── DatabaseInitializer.java // Инициализация базы данных
+│   │   │           ├── JpqlDemo.java           // Демонстрация JPQL-запросов
+│   │   │           └── ProblemsDemo.java       // Кейсы и проблемы с JPQL
+│   │   ├── resources/
+│   │   │   ├── db.changelog/
+│   │   │   │   ├── data/                       // Данные для заполнения
+│   │   │   │   ├── structure/                  // Скрипты создания структуры
+│   │   │   │   └── db.changelog-master.yaml    // Главный файл миграций Liquibase
+│   │   │   ├── META-INF/
+│   │   │   │   └── persistence.xml             // Конфигурация JPA
+│   │   │   └── logback.xml                     // Конфигурация логирования
+│   └── test/
+│       └── (тесты проекта)
+
 ```
 
-Запуск pgAdmin из Docker 
+2. Запуск pgAdmin из Docker 
 ```txt
 1) Запустить контейнеры из docker-compose.yaml
 
-2) Перейти в терминал и выполнить команду: docker network inspect jpql_db-network
+2) Перейти в терминал и выполнить команду: 
+                docker network inspect jpql_db-network
   где jpql - имя текущего проекта, где находится docker-compose.yaml 
       db-network - параметр из "networks:" в docker-compose.yaml
 
@@ -46,3 +71,12 @@ src/
      - Password:             password      (из "environment: POSTGRES_PASSWORD: ***" в файле docker-compose.yaml)
    [Save]
 ```
+
+### References 
+
+1. Официальная документация Hibernate: [https://hibernate.org/orm/](https://hibernate.org/orm/)  
+
+2. Основы Hibernate на русском языке: https://proselyte.net/tutorials/hibernate-tutorial/
+
+3. Учебное пособие от JournalDev: [https://www.journaldev.com/2803/hibernate-tutorial-for-beginners](https://www.journaldev.com/2803/hibernate-tutorial-for-beginners)  
+
