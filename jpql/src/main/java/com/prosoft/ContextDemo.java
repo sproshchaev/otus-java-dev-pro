@@ -67,13 +67,16 @@ public class ContextDemo {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        // Сохранение новой категории в базе данных
+        // Сохранение новой категории в базе данных: передаем entityManager нащ объект в методе persist
+        // INSERT в БД не выполняется
         entityManager.persist(newCategory);
 
         // Поиск только что сохраненной сущности в контексте persistence
+        // Объект (тот же самый) возвращается из Persistent Context - SELECT в БД не выполняется
         Category categoryFromContext = entityManager.find(Category.class, newCategory.getId());
 
         // Завершение транзакции и фиксация изменений в базе данных
+        // INSERT в БД
         transaction.commit();
 
         // Закрытие менеджера сущностей
@@ -116,18 +119,22 @@ public class ContextDemo {
         transaction.begin();
 
         // Сохранение новой категории в persistence контексте
+        // Объект помещается в Persistence Context - INSERT не выполняется
         entityManager.persist(newCategory);
 
         // Первичная синхронизация состояния с базой данных
+        // Выполняется синхронизация Persistent Context c БД - выполняется INSERT
         entityManager.flush();
 
         // Изменение имени сущности
         newCategory.setName("Management");
 
         // Повторная синхронизация с обновленным именем
+        // Выполняется синхронизация Persistent Context с БД - выполняется UPDATE
         entityManager.flush();
 
         // Завершение транзакции и окончательная фиксация изменений
+        // INSERT/UPDATE не выполняются (были выполнены ранее)
         transaction.commit();
 
         // Закрытие менеджера сущностей
@@ -166,19 +173,23 @@ public class ContextDemo {
         EntityTransaction transaction1 = entityManager.getTransaction();
         transaction1.begin();
 
-        // Сохранение новой категории в базе данных
+        // Сохранение новой категории в контекст
+        // Объект помещается в Persistence Context - INSERT не выполняется
         entityManager.persist(newCategory);
 
         // Синхронизация состояния базы данных
+        // Выполняется синхронизация Persistent Context c БД - выполняется INSERT
         entityManager.flush();
 
         // Отсоединение сущности от контекста persistence
+        // Объект отключается от Persistence Context - синхронизации с БД останавливается
         entityManager.detach(newCategory);
 
         // Изменение имени отсоединенной сущности
         newCategory.setName("Support");
 
         // Завершение первой транзакции
+        // Выполняется коммит транзакции 1 - UPDATE не выполняется (сущность изменена после отключения от контекста)
         transaction1.commit();
 
         // Начало второй транзакции
@@ -186,12 +197,17 @@ public class ContextDemo {
         transaction2.begin();
 
         // Возвращение сущности в контекст persistence с обновлением состояния
+        // Объект повторно помещается к Persistence Context - выполняется SELECT из БД, создается новый объект,
+        // состояние исходного объекта копируется объект, созданный при merge - синхронизация с БД
+        // восстанавливается уже для нового объекта
         Category mergedCategory = entityManager.merge(newCategory);
 
         // Попытка изменения имени, которая не повлияет на базу данных
         newCategory.setName("New Analysis");
 
         // Завершение второй транзакции
+        // Выполняется UPDATE со значением из объекта, созданного при merge
+        // В БД появится новая запись с именем "Support"
         transaction2.commit();
 
         // Закрытие менеджера сущностей
@@ -233,6 +249,7 @@ public class ContextDemo {
         transaction1.begin();
 
         // Сохранение новой категории в базе данных
+        // Объект помещается в Persistence Context - INSERT не выполняется
         entityManager.persist(newCategory);
 
         // Завершение первой транзакции и фиксация сохранения
@@ -242,10 +259,12 @@ public class ContextDemo {
         EntityTransaction transaction2 = entityManager.getTransaction();
         transaction2.begin();
 
-        // Удаление сущности из базы данных
+        // Удаление сущности
+        // Выполняется удаление объекта из контекста - DELETE не выполняется
         entityManager.remove(newCategory);
 
         // Завершение второй транзакции и фиксация удаления
+        // Выполняется коммит транзакции 2 - выполняется DELETE
         transaction2.commit();
 
         // Закрытие менеджера сущностей
