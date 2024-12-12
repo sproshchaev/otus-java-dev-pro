@@ -7,13 +7,17 @@ import jakarta.persistence.Persistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Пример использования Hibernate через общий API (JPA):
- * - persistence.xml
- */
-public class HibernateApp {
+import java.util.List;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HibernateApp.class);
+/**
+ * Запуск системы миграций и вывод состояния основных таблиц в консоль.
+ */
+public class DatabaseInitializer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseInitializer.class);
+
+    private DatabaseInitializer() {
+    }
 
     public static void main(String[] args) {
 
@@ -30,7 +34,10 @@ public class HibernateApp {
             /** Открытие транзакции */
             entityManager.getTransaction().begin();
 
-            // Вывести в лог все данные из таблиц
+            logTableContents(entityManager, "Category");
+            logTableContents(entityManager, "Contact");
+            logTableContents(entityManager, "Course");
+            logTableContents(entityManager, "Student");
 
             /** Завершение транзакции */
             entityManager.getTransaction().commit();
@@ -40,6 +47,22 @@ public class HibernateApp {
         } finally {
             /** Закрытие EntityManagerFactory */
             entityManagerFactory.close();
+        }
+    }
+
+    private static void logTableContents(EntityManager entityManager, String entityClassName) {
+        try {
+            Class<?> entityClass = Class.forName("com.prosoft.entity." + entityClassName);
+
+            List<?> resultList = entityManager.createQuery("SELECT e FROM " + entityClassName + " e", entityClass).getResultList();
+
+            LOGGER.info("Table '{}' contains {} records:", entityClassName, resultList.size());
+
+            for (Object entity : resultList) {
+                LOGGER.info("{}: {}", entityClassName, entity);
+            }
+        } catch (ClassNotFoundException e) {
+            LOGGER.error("Entity class not found: {}", entityClassName, e);
         }
     }
 }
