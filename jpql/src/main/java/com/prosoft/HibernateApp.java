@@ -29,6 +29,8 @@ public class HibernateApp {
             /** Открытие транзакции */
             entityManager.getTransaction().begin();
 
+            // Вывести в лог все данные из таблиц
+
             /** Завершение транзакции */
             entityManager.getTransaction().commit();
 
