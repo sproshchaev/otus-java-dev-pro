@@ -1,18 +1,21 @@
 package com.prosoft.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "CONTACTS",
+@Table(name = "contacts",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"type", "student_id"})})
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    // @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "value", nullable = false, length = 70)
