@@ -10,6 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "categories")
 @Data
+@NoArgsConstructor
 public class Category {
 
     @Id

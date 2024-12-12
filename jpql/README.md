@@ -36,10 +36,13 @@ src/
 6) В секции "Quick Links" выбрать "Add New Server"
 
 7) Ввести данные:
-   - Name:                 postgres-15   (из "container_name" в файле docker-compose.yaml)
-   - Host name/address:    172.18.0.1    (из "Gateway")
-   - Port:                 5432          (из "ports: - "5432:..." в файле docker-compose.yaml)
-   - Maintenance database: otus-db       (из "environment: POSTGRES_DB: otus-db" в файле docker-compose.yaml)  
-   - Username:             ***           (из "environment: POSTGRES_USER: ***" в файле docker-compose.yaml)
-   - Password:             ***           (из "environment: POSTGRES_PASSWORD: ***" в файле docker-compose.yaml)
+   "General"
+     - Name:                 postgres-15   (из "container_name" в файле docker-compose.yaml)
+   "Connection"
+     - Host name/address:    172.18.0.1    (из "Gateway")
+     - Port:                 5432          (из "ports: - "5432:..." в файле docker-compose.yaml)
+     - Maintenance database: otus-db       (из "environment: POSTGRES_DB: otus-db" в файле docker-compose.yaml)  
+     - Username:             user          (из "environment: POSTGRES_USER: ***" в файле docker-compose.yaml)
+     - Password:             password      (из "environment: POSTGRES_PASSWORD: ***" в файле docker-compose.yaml)
+   [Save]
 ```
