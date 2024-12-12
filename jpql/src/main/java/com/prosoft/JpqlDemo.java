@@ -27,7 +27,8 @@ public class JpqlDemo {
     }
 
     /**
-     * simpleQueryDemo()
+     * Метод simpleQueryDemo(). Выполняет демонстрацию простых запросов с использованием JPA для работы
+     * с сущностями `Category` и `Course`.
      */
     public static void simpleQueryDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -66,7 +67,8 @@ public class JpqlDemo {
     }
 
     /**
-     * normalQueryDemo()
+     * Метод normalQueryDemo() Выполняет демонстрацию нормальных запросов с использованием JPA для работы
+     * с сущностями `Category` и `Course`.
      */
     public static void normalQueryDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -99,7 +101,8 @@ public class JpqlDemo {
     }
 
     /**
-     * advancedQueryDemo()
+     * Метод advancedQueryDemo() Выполняет демонстрацию сложных запросов с использованием JPA для работы
+     * с сущностями `Course` и `Category`.
      */
     public static void advancedQueryDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -117,7 +120,8 @@ public class JpqlDemo {
     }
 
     /**
-     * executeUpdateDemo()
+     * Метод executeUpdateDemo() Выполняет демонстрацию использования обновлений с помощью JPA для работы
+     * с сущностями `Course` и `Category`.
      */
     public static void executeUpdateDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
