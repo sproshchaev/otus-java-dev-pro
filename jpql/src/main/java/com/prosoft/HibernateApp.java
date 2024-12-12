@@ -19,6 +19,7 @@ public class HibernateApp {
 
         /** Запуск миграций Liquibase */
         LiquibaseRunner.runMigrations();
+        LOGGER.info("LiquibaseRunner done.");
 
         /** Создание EntityManagerFactory для JPA - создаётся на уровне всего приложения и может использоваться многократно для создания различных EntityManager */
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("SingleUnit");
