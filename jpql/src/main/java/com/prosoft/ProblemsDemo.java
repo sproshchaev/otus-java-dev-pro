@@ -21,11 +21,11 @@ public class ProblemsDemo {
 
     public static void main(String[] args) {
 
-        // lazyInitializationExceptionDemo();
+        // lazyInitializationExceptionDemo(); // LazyInitializationException
 
-        // nPlusOneProblemDemo();
+        nPlusOneProblemDemo();
 
-        // fetchSolutionDemo();
+        fetchSolutionDemo();
 
         entityGraphSolutionDemo();
     }
@@ -52,7 +52,6 @@ public class ProblemsDemo {
             LOGGER.info("{}", category.getCourseSet().size());
         }
     }
-
 
     /**
      * Метод nPlusOneProblemDemo().
