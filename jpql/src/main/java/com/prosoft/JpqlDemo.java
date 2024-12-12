@@ -1,27 +1,34 @@
 package com.prosoft;
 
+import com.prosoft.agreates.CategoryInfo;
+import com.prosoft.entity.Category;
+import com.prosoft.entity.Course;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import com.prosoft.agreates.CategoryInfo;
-import com.prosoft.entity.Category;
-import com.prosoft.entity.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.UUID;
 
 public class JpqlDemo {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JpqlDemo.class);
+
     public static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
 
     public static void main(String[] args) {
         simpleQueryDemo();
-        normalQueryDemo();
+        // normalQueryDemo();
         // ? advancedQueryDemo();
-        executeUpdateDemo();
+        // executeUpdateDemo();
     }
 
+    /**
+     * simpleQueryDemo()
+     */
     public static void simpleQueryDemo() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager entityManager = emf.createEntityManager();
@@ -30,6 +37,7 @@ public class JpqlDemo {
         List<Category> categoryList = entityManager
                 .createQuery("SELECT C FROM Category C", Category.class)
                 .getResultList();
+        categoryList.forEach(category -> LOGGER.info("{}", category));
 
         // Найти категорию с определенным именем
         // Если не будет найдено ни одного объекта, будет NoResultException
@@ -38,19 +46,21 @@ public class JpqlDemo {
                 .createQuery("SELECT C FROM Category C WHERE C.name =:name", Category.class)
                 .setParameter("name", "Analysis")
                 .getSingleResult();
+        LOGGER.info("Category: {}", category);
 
         // Найти id категории с определенным именем
         UUID categoryId = entityManager
                 .createQuery("SELECT C.id FROM Category C where C.name = :name", UUID.class)
                 .setParameter("name", "Development")
                 .getSingleResult();
-
+        LOGGER.info("Category ID for 'Development': {}", categoryId);
 
         // Найти курсы с высокой стоимостью
         List<Course> expensiveCourseList = entityManager
                 .createQuery("SELECT C FROM Course C WHERE C.cost > :level", Course.class)
                 .setParameter("level", 150)
                 .getResultList();
+        expensiveCourseList.forEach(course -> LOGGER.info("Expensive Course: {}", course));
 
         entityManager.close();
     }
