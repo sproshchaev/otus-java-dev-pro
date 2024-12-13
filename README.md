@@ -3,5 +3,5 @@
 
 # otus-java-dev-pro
 
-1. JDBC
+1. Java Database Connectivity (JDBC) https://github.com/sproshchaev/otus-java-dev-pro/blob/base/jdbc/README.md
 2. Java Persistence Query Language (JPQL) https://github.com/sproshchaev/otus-java-dev-pro/blob/base/jpql/README.md
