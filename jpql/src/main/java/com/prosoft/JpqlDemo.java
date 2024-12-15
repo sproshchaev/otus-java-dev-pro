@@ -20,7 +20,7 @@ public class JpqlDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JpqlDemo.class);
 
-    public static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
+    private static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
 
     public static void main(String[] args) {
         simpleQueryDemo();

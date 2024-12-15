@@ -12,7 +12,7 @@ import jakarta.persistence.Persistence;
  */
 public class ContextDemo {
 
-    public static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
+    private static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
 
     public static void main(String[] args) {
 
