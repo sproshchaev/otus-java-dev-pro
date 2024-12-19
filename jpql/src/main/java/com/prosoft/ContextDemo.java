@@ -14,6 +14,10 @@ public class ContextDemo {
 
     private static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
 
+    /** Создание фабрики менеджеров сущностей для работы с persistence один раз */
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
+            Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+
     public static void main(String[] args) {
 
         /** Запуск миграций Liquibase */
@@ -53,11 +57,9 @@ public class ContextDemo {
      * - Новая сущность будет иметь уникальный сгенерированный идентификатор
      */
     public static void persistDemo() {
-        // Создание фабрики менеджеров сущностей для работы с persistence
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
         // Получение менеджера сущностей для работы с базой данных
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Создание новой категории с именем "Testing"
         Category newCategory = new Category("Testing");
@@ -104,11 +106,9 @@ public class ContextDemo {
      * - Сущность будет иметь уникальный сгенерированный идентификатор
      */
     public static void flushDemo() {
-        // Создание фабрики менеджеров сущностей для работы с persistence
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
         // Получение менеджера сущностей для работы с базой данных
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Создание новой категории с initial именем "MANAGEMENT"
         Category newCategory = new Category("MANAGEMENT");
@@ -159,11 +159,9 @@ public class ContextDemo {
      * - Изменение на "New Analysis" не попадет в базу данных
      */
     public static void detachMergeDemo() {
-        // Создание фабрики менеджеров сущностей для работы с persistence
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
         // Получение менеджера сущностей для работы с базой данных
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Создание новой категории с initial именем "SUPPORT"
         Category newCategory = new Category("SUPPORT");
@@ -234,11 +232,9 @@ public class ContextDemo {
      * - После выполнения метода сущность отсутствует в базе данных
      */
     public static void removeDemo() {
-        // Создание фабрики менеджеров сущностей для работы с persistence
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
         // Получение менеджера сущностей для работы с базой данных
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Создание новой категории с именем "Operations"
         Category newCategory = new Category("Operations");
