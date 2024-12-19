@@ -19,8 +19,11 @@ import java.util.UUID;
 public class JpqlDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JpqlDemo.class);
-
     private static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
+
+    /** Создание фабрики менеджеров сущностей для работы с persistence один раз */
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
+            Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
     public static void main(String[] args) {
         simpleQueryDemo();
@@ -34,8 +37,7 @@ public class JpqlDemo {
      * с сущностями `Category` и `Course`.
      */
     public static void simpleQueryDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Найти все категории
         List<Category> categoryList = entityManager
@@ -74,8 +76,7 @@ public class JpqlDemo {
      * с сущностями `Category` и `Course`.
      */
     public static void normalQueryDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Найти количество всех категорий
         Long categoryCount = entityManager
@@ -108,8 +109,7 @@ public class JpqlDemo {
      * с сущностями `Course` и `Category`.
      */
     public static void advancedQueryDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Найти среднюю стоимость курсов в каждой группе, где она больше уровня
         List<CategoryInfo> categoryInfoList = entityManager
@@ -127,8 +127,7 @@ public class JpqlDemo {
      * с сущностями `Course` и `Category`.
      */
     public static void executeUpdateDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
