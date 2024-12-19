@@ -16,8 +16,12 @@ import java.util.List;
 public class ProblemsDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProblemsDemo.class);
-
     private static final String PERSISTENCE_UNIT_NAME = "SingleUnit";
+
+    /** Создание фабрики менеджеров сущностей для работы с persistence один раз */
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
+            Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+
 
     public static void main(String[] args) {
 
@@ -36,8 +40,7 @@ public class ProblemsDemo {
      * к лениво загружаемым данным после закрытия EntityManager.
      */
     public static void lazyInitializationExceptionDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Найти все категории (N) - курсы сразу не загружаются
         List<Category> categoryList = entityManager
@@ -58,8 +61,7 @@ public class ProblemsDemo {
      * Демонстрирует проблему N+1 при выполнении ленивой загрузки связанных данных в JPA.
      */
     public static void nPlusOneProblemDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Найти все категории (N) - курсы сразу не загружаются
         List<Category> categoryList = entityManager
@@ -80,8 +82,7 @@ public class ProblemsDemo {
      * Демонстрирует решение проблемы ленивой загрузки данных с использованием оператора {@code FETCH} в JPQL.
      */
     public static void fetchSolutionDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Найти все категории (N) - курсы загружаются сразу
         List<Category> categoryList = entityManager
@@ -101,8 +102,7 @@ public class ProblemsDemo {
      * Демонстрирует использование EntityGraph для решения проблемы ленивой загрузки и предотвращения LazyInitializationException.
      */
     public static void entityGraphSolutionDemo() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
         // Создаем указание на необходимость загружать именованный entity-граф - решает проблему LazyInitializationException
         EntityGraph entityGraph = entityManager.getEntityGraph("category-entity-graph");
