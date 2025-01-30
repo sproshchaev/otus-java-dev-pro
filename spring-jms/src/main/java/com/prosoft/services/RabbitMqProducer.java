@@ -9,9 +9,9 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.otus.example.jms.config.RabbitMqConfig;
-import ru.otus.example.jms.dto.OrderDto;
-import ru.otus.example.jms.dto.StudentDto;
+import com.prosoft.config.RabbitMqConfig;
+import com.prosoft.dto.OrderDto;
+import com.prosoft.dto.StudentDto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
