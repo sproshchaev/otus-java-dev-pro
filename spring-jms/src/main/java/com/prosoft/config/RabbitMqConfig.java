@@ -29,7 +29,7 @@ public class RabbitMqConfig {
         connectionFactory.setHost("localhost");
         connectionFactory.setPort(5672);
         connectionFactory.setUsername("user");
-        connectionFactory.setPassword("bitnami");
+        connectionFactory.setPassword("rabbit");
         return connectionFactory;
     }
 

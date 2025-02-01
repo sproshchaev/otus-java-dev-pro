@@ -6,6 +6,9 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: rabbit
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - rabbitmq_config:/etc/rabbitmq
