@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @EnableAutoConfiguration
-public class SpringBootMain {
+public class SpringJmsApp {
 
     public static void main(String... args) {
-        SpringApplication.run(SpringBootMain.class, args);
+        SpringApplication.run(SpringJmsApp.class, args);
     }
 
 }
