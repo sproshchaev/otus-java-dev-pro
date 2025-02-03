@@ -1,4 +1,4 @@
-package com.prosoft;
+package com.prosoft.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,5 +12,4 @@ import java.io.Serializable;
 public class Person implements Serializable {
     private String name;
     private int age;
-
 }

@@ -1,9 +1,8 @@
-package com.prosoft;
+package com.prosoft.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import com.prosoft.domain.Person;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
@@ -12,6 +11,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@EnableRabbit
 @Configuration
 public class RabbitConfig {
     private static final String EXCHANGE_NAME = "directExchange";
@@ -39,7 +39,7 @@ public class RabbitConfig {
         rabbitTemplate.setExchange(EXCHANGE_NAME);
         rabbitTemplate.setRoutingKey(ROUTING_KEY);
         // Использование Jackson2JsonMessageConverter для сериализации
-        //rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         return rabbitTemplate;
     }
 
@@ -47,12 +47,15 @@ public class RabbitConfig {
     public MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(QUEUE_NAME);
+        container.setQueueNames(QUEUE_NAME); // Указываем имя очереди, с которой будем работать
+
+        // Устанавливаем слушателя сообщений
         container.setMessageListener(message -> {
-            // Преобразование сообщения из JSON обратно в объект
+            // Преобразуем сообщение из JSON обратно в объект Person
             Person person = (Person) new Jackson2JsonMessageConverter().fromMessage(message);
             System.out.println("Received person: " + person);
         });
+
         return container;
     }
 

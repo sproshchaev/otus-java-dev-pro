@@ -1,6 +1,6 @@
 package com.prosoft;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import com.prosoft.domain.Person;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,7 +23,7 @@ public class SpringJmsApp implements CommandLineRunner {
         Person person = new Person("John Doe", 30);
 
         // Отправляем объект в RabbitMQ как сообщение
-        rabbitTemplate.convertAndSend("personQueue", person);
+        rabbitTemplate.convertAndSend("personRoute", person);
 
         System.out.println("Message sent: " + person);
 
